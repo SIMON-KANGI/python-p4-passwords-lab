@@ -29,12 +29,13 @@ class Signup(Resource):
 
 class CheckSession(Resource):
     def get(self):
-        user_id = session.get('user_id')
+        user_id = session.get('user_id')  
         if user_id:
-            user = User.authenticate(session)  # Pass session data to authenticate method
+            user = User.query.get(user_id)  
             if user:
-                return user.to_dict(), 200
-        return {}, 204
+                return user.to_dict(), 200  
+        return {}, 204 
+
 
 
 
@@ -65,6 +66,6 @@ api.add_resource(ClearSession, '/clear', endpoint='clear')
 api.add_resource(Signup, '/signup', endpoint='signup')
 api.add_resource(Logout, '/logout', endpoint='logout')
 api.add_resource(Login, '/login', endpoint='login')
-api.add_resource(CheckSession, '/checksession', endpoint='check')
+api.add_resource(CheckSession, '/check_session', endpoint='check_session')
 if __name__ == '__main__':
     app.run(port=5555, debug=True)
